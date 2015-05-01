@@ -1,4 +1,4 @@
-function [ a ] = OleConv( X, kernel )
+function [ a, dw ] = OleConv( X, kernel )
 %OLECONV Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -17,5 +17,10 @@ end
 
 a = OleSigmoid(z);
 
+%% Gradient
+dz = (1-z) .* z;
+dwx = dz .* 1;
+dw = X .* dz;
+grad = dw;
 end
 

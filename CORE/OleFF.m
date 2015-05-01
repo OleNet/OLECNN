@@ -11,7 +11,7 @@ while i < length(net.layer)
         case 'conv' 
             res{end+1} = OleConv(X, net.layer{i}.filter);
         case 'pool'
-            res{end+1} = OlePool(X, net.layer{i}.SZ);
+            res{end+1} = OlePool(X, net.layer{i}.size);
         case 'relu' 
             res{end+1} = OleRelu(X);
         case 'softmax' 
