@@ -12,7 +12,7 @@ den = repmat(den, [1, c]);
 h = pc ./ den;
 
 
-dfilter = ;
+% dfilter = ;
 
 end
 
