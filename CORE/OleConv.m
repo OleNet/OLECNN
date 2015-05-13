@@ -12,10 +12,9 @@ assert(ncX == ncK, 'kernel channel dosnt match X');
 
 z = [];
 for i = 1 : nK
-    z = cat(3, z, convn(X, kernel(:,:,:,i), 'valid'));
+    z = cat(3, z, convn(X, rot90(rot90(kernel(:,:,:,i))), 'valid'));
 end
 
-a = OleSigmoid(z);
 
 %% Gradient
 dz = (1-z) .* z;
