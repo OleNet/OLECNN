@@ -3,41 +3,55 @@ function [ h, J, dfilter] = OleSoftMax( X, filter, y )
 %   Detailed explanation goes here
 
 %%
-% filter k * n
+% X : n*m
+% filter n * k
 % k class num
 % m sample num
 % n feature num
 m = size(X, 4);
 mu = max(X); % 1 * n matrix
-for i = 1 : m
-    Xminmu(:,:,:,i) = (X(:,:,:,i)-mu(:,:,:,i)); % Xminmu is col vector
-end
-Xminmu = squeeze(reshape(Xminmu, 1, 1, [], m)); % Xminmu should be two col vector, n * m
+
 
 %% hypothesis
-XminMulFil = filter * Xminmu;
-pc = exp(XminMulFil);
-den = sum(pc); % each col contains all the pred for respective class
+XMulFil = filter' * X;
+maxXMulFil = max(XMulFil, [], 1);
+for i = 1 : m
+    Xminmax(:,i) = (X(:,i)-maxXMulFil(i)); % Xminmu is col vector
+end
+Z = exp(Xminmax);
+den = sum(Z); % each col contains all the pred for respective class
 invden = 1./den;
 for i = 1 : m
-    h(:, i) = pc(:, i) * invden(i);
+    prop(:, i) = Z(:, i) * invden(i);
 end
-% h = bsxfun(@mul, , invden);
-
 onehot_y = full(sparse(y, 1:m, 1));
-logh = log(h);
-J = (-1/m)*sum(sum(onehot_y.*logh));
+logprop = log(prop);
+logpropMasked = onehot_y.*logprop;
+sumViaClass = sum(logpropMasked);
+sumViaSample = sum(sumViaClass);
+J = (-1/m)*sumViaSample;
 
 
 %% gradient
-dlogh = (-1/m)*sum(sum(onehot_y));
-dh = dlogh*(1./h);
-dinvden = pc*dh;
-dpc = invden * dh;
-dden = (-1) .* (den) .^(-2) * dinvden;
-dpc = dpc + dden;
-dXminMulFil = dpc * pc;
-dfilter = dXminMulFil * Xminmu' ;
+dsumViaSample = (-1/m);
+dsumViaClass = dsumViaSample * 1;
+dlogpropMasked = dsumViaClass * 1;
+dlogprop = dlogpropMasked .* onehot_y;
+dprop = dlogprop * (1/prop);
+for i = 1 : m
+    dZ(:, i) = dprop(:, i) * invden(i);
+    dinvden(:, i) = dprop(:, i) * Z(:, i);
+end
+dden = dinvden * (-1) * den.^(-2);
+dZ = dden * 1;
+dXminmax = dZ * Z;
+for i = 1 : m
+    dmaxXmulFil = dXminmax(:, i) * (-1);
+end
+dXmulFil = dmaxXmulFil; %?
+dfilter = dXmulFil * X;
+
 
 end
+
 
