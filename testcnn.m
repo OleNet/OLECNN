@@ -3,8 +3,10 @@ function testcnn( )
 %   Detailed explanation goes here
 
 %%
-p = imread('peppers.png');
+% p = imread('peppers.png');
+p = rand(3,3,3,4);
+y = randi(10, 1, 4);
 net = InitModel();
-score = OleFF(p, net);
+score = OleFF(p, net, y);
 end
 

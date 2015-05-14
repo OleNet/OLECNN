@@ -1,4 +1,4 @@
-function [ a, dw ] = OleConv( X, kernel )
+function [ z ] = OleConv( X, kernel )
 %OLECONV Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -16,10 +16,10 @@ for i = 1 : nK
 end
 
 
-%% Gradient
-dz = (1-z) .* z;
-dwx = dz .* 1;
-dw = X .* dz;
-grad = dw;
+% %% Gradient
+% dz = (1-z) .* z;
+% dwx = dz .* 1;
+% dw = X .* dz;
+% grad = dw;
 end
 
