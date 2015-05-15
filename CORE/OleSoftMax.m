@@ -1,4 +1,4 @@
-function [J, dfilter] = OleSoftMax(X, filter, y)
+function [J, dfilter, delta] = OleSoftMax(X, filter, y, der)
 %%
 % X : n * m
 % filter n * k 
@@ -21,7 +21,9 @@ logProp = log(Prop);
 maskedlogProp = oneHotMask.*logProp;
 J = (-1/M) * sum(maskedlogProp(:));
 
-dfilter = (-1/M) * (X_ * (oneHotMask - Prop)');
-
+if nargin == 4
+    delta = -(oneHotMask - Prop);
+    dfilter = (1/M) * (X_ * (oneHotMask - Prop)');
+ene
 end
 

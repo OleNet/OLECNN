@@ -7,6 +7,6 @@ function testcnn( )
 p = rand(3,3,3,4);
 y = randi(10, 1, 4);
 net = InitModel();
-score = OleFF(p, net, y);
+score = OlePipeLine(p, net, y);
 end
 

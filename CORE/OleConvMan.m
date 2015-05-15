@@ -1,4 +1,4 @@
-function [ X_, dw ] = OleConvMan( X, kernel )
+function [ X_, delta_l, dkernel, dbias ] = OleConvMan( X, kernel, delta_lp1 )
 %OLECONV Summary of this function goes here
 %   Detailed explanation goes here
 %   OleConvMan == convn(a,flipud(fliplr(kernel)),'valid')
@@ -31,8 +31,13 @@ for k = 1 : P
     end
 end
 
-
-
+%% 
+if exist('delta_lp1', 'var')
+    delta_l = X_ .* delta_lp1;
+    X_lm1 = X;
+    dkernel = rot180(conv2(X_lm1, rot180(delta_l), 'valid'));
+    dbias = sum(delta_l);
+end
 %% Gradient
 % dz = (1-z) .* z;
 % dwx = dz .* 1;
@@ -40,3 +45,6 @@ end
 % grad = dw;
 end
 
+function ma_ = rot180(ma)
+ma_ = rot90(rot90(ma));
+end
