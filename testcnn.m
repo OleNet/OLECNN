@@ -4,9 +4,9 @@ function testcnn( )
 
 %%
 % p = imread('peppers.png');
-p = rand(3,3,3,4);
-y = randi(10, 1, 4);
+X = rand(3,3,3,4);
+y = [1 10 3 6];
 net = InitModel();
-score = OlePipeLine(p, net, y);
+score = OlePipeLine(X, net, y);
 end
 
