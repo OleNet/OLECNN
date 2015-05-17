@@ -1,4 +1,4 @@
-function testcnn( )
+function cnnMain( )
 %TESTCNN Summary of this function goes here
 %   Detailed explanation goes here
 

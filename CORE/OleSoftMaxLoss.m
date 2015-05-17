@@ -9,6 +9,5 @@ h = OleSoftMax(X, filter);
 
 loss = OleSquareLoss(h, y);
 
-
 end
 

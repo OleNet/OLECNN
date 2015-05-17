@@ -1,4 +1,4 @@
-function grad = numerical_grad(J, X, theta)
+function grad = numericalGrad(J, X, theta)
 
 %%
 epsilon = 0.0001;

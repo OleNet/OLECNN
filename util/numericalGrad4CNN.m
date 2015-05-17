@@ -1,4 +1,4 @@
-function grad = net_numerical_grad(J, X, net)
+function grad = numericalGrad4CNN(J, X, net)
 
 %%
 epsilon = 0.0001;

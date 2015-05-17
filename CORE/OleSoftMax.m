@@ -11,7 +11,8 @@ Mf = size(filter, 4);
 
 filter_ = reshape(filter, [], Mf);  % n * k
 X_ = reshape(X, [], Mx);            % n * m
-assert(size(filter_,1) == size(X_, 1), 'feature num != image feature');
+
+assert(size(filter_,1) == size(X_, 1), 'feature num != image feature.Hint: Is X 1x1xNxM?>');
 
 Z = filter_' * X_;                  % k * m
 

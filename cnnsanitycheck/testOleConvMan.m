@@ -1,4 +1,4 @@
-function [ X_, dw ] = testOleConvMan
+function [ ret ] = testOleConvMan
 
 %%
 X = randi(4, [4, 4, 2, 1]);
@@ -9,8 +9,9 @@ nK = size(kernel, 4);
 y = vl_nnconv(single(X), single(kernel), []);
 
 if isequal(fix(y*1000),fix(X_*1000))
-    display('test passed!');
+    ret = 1;
 else
-    display('check it again!');
+    ret = 0;
 end
+
 end

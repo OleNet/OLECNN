@@ -1,4 +1,4 @@
-function test_pipeline
+function testCnnPipeline
 
 m = 4;
 n = 3;

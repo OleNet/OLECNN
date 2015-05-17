@@ -18,8 +18,8 @@ while i <= length(net.layer)
 i = i + 1;
 end
 
-i = i - 1;
 
+i = i - 1;
 while i > 0
     switch net.layer{i}.type
         case 'conv'
