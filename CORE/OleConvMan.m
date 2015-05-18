@@ -31,7 +31,8 @@ for k = 1 : P
     end
 end
 
-Y = OleSigmoid(X_);
+%Y = X_;
+ Y = OleSigmoid(X_);
 
 %% 
 delta_lm1 = [];

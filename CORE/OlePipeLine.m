@@ -1,4 +1,4 @@
-function [ res ] = OlePipeLine( X, net, y )
+function [ res, net ] = OlePipeLine( X, net, y )
 %OLEFF Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -11,7 +11,7 @@ while i <= length(net.layer)
         case 'conv' 
             [res{i+1}.X]  = OleConvMan(res{i}.X, net.layer{i}.filter);
         case 'softmax' 
-            [res{i+1}.X] =  OleSoftMax(res{i}.X, net.layer{i}.filter, y);
+            [res{i+1}.Prop, res{i+1}.X] =  OleSoftMax(res{i}.X, net.layer{i}.filter, y);
         otherwise
     end
     
@@ -25,18 +25,19 @@ while i > 0
         case 'conv'
             [~, res{i}.delta, res{i}.dfilter, ]  = OleConvMan(res{i}.X, net.layer{i}.filter, res{i+1}.delta);
         case 'softmax'
-            [~, res{i}.delta, res{i}.dfilter] =  OleSoftMax(res{i}.X, net.layer{i}.filter, y, 1);
+            [~, ~, res{i}.delta, res{i}.dfilter] =  OleSoftMax(res{i}.X, net.layer{i}.filter, y, 1);
         otherwise
     end
     i= i - 1;
 end
 
 %% Update Weight
-% yita = 0.0001;
-% for i = 1 : length(net.layer)
-%     net.layer{i}.filter = net.layer{i}.filter - yita * res{i}.dfilter;
+yita = 500;
+for i = 1 : length(net.layer)
+    net.layer{i}.filter = net.layer{i}.filter - yita * res{i}.dfilter;
+    disp(net.layer{i}.filter(1));
 %     net.layer{i}.bias = net.layer{i}.bias - yita * res{i}.bias;
-% end
+end
 
 score = 0;
 end

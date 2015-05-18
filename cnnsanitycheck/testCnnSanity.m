@@ -4,7 +4,7 @@ function [ output_args ] = testCnnSanity( input_args )
 
 testIt(@ testSoftmaxAnalytic);
 testIt(@ testOleConvMan );
-
+testIt(@ testCnnPipeline);
 end
 
 
@@ -15,6 +15,6 @@ ret = fun();
 if ret == 1
     fprintf( 'Congratulations! %s test passed!\n', funcName);
 else
-    fprintf( '%s test NOT passed\n', funcName);
+    fprintf( 'Sadlly! %s test NOT passed\n', funcName);
 end
 end

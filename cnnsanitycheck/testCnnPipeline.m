@@ -1,4 +1,4 @@
-function testCnnPipeline
+function ret = testCnnPipeline
 
 m = 4;
 n = 3;
@@ -9,8 +9,17 @@ net = InitModel();
 
 %% my cnn pipeline
 J = @(X, net) lossWrapper(X, net, y);
-num_grad = net_numerical_grad(J, X, net);
+num_grad = numericalGrad4CNN(J, X, net);
 [J, dfilter] = lossWrapper(X, net, y);
 display([dfilter(:), num_grad(:)]);
 
+
+%%
+threshold = 1e-7;
+diff = sum((dfilter(:) - num_grad(:)) .^2);
+if diff > threshold
+    ret = 0;
+else
+    ret = 1;
+end
 end

@@ -1,4 +1,4 @@
-function [J, delta_lm1, dfilter] = OleSoftMax(X, filter, y, der)
+function [Prop, J, delta_lm1, dfilter] = OleSoftMax(X, filter, y, der)
 %%
 % X : n * m
 % filter n * k 
