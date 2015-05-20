@@ -2,9 +2,13 @@ function [ output_args ] = testCnnSanity( input_args )
 %TESTCNN 此处显示有关此函数的摘要
 %   此处显示详细说明
 
-testIt(@ testSoftmaxAnalytic);
-testIt(@ testOleConvMan );
-testIt(@ testCnnPipeline);
+m = 4;
+n = 3;
+k = 2;
+
+testIt(@() testSoftmaxAnalytic(m,n,k));
+testIt(@() testOleConvMan(m,n,k));
+testIt(@() testCnnPipeline(m,n,k));
 end
 
 

@@ -4,11 +4,12 @@ function [loss, dtheta] = lossWrapper(X, net, y)
 %%
 [ res ] = OlePipeLine( X, net, y );
 loss = res{end}.X;
-dfilter = [];
+dtheta = [];
 for i = 1 : length(res)
     if isfield(res{i}, 'dfilter')
-        dfilter = [dfilter; res{i}.dfilter(:)];
+        dtheta = [dtheta; res{i}.dfilter(:);res{i}.dbias(:)];
     end
 end
-dtheta = reshape(dfilter, 1, []);
+
+dtheta = reshape(dtheta, 1, []);
 end

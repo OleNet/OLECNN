@@ -1,4 +1,4 @@
-function [ Y, delta_lm1, dkernel, dbias ] = OleConvMan( X, kernel, delta )
+function [ Y, delta_lm1, dkernel, dbias ] = OleConvMan( X, kernel, b, delta, dx )
 %OLECONV Summary of this function goes here
 %   Detailed explanation goes here
 %   OleConvMan == convn(a,flipud(fliplr(kernel)),'valid')
@@ -24,15 +24,15 @@ for k = 1 : P
             
             for d = 1 : p % depth
                 XmulK = X_pad(i:i+m-1, j:j+n-1, :, k) .*(kernel(:,:,:,d));
-                X_(i, j, d, k) = sum(XmulK(:));
+                X_(i, j, d, k) = sum(XmulK(:))+ b(p);
             end
             
         end
     end
 end
 
-%Y = X_;
- Y = OleSigmoid(X_);
+Y = X_;
+%Y = OleSigmoid(X_);
 
 %% 
 delta_lm1 = [];
@@ -40,9 +40,9 @@ dkernel = [];
 dbias = [];
 
 if exist('delta', 'var')
-    delta = OleSigmoid(X_).*(1-OleSigmoid(X_)) .* delta;
+    delta = dx .* delta;
     delta_re = reshape(delta, size(X_));
-    delta_lm1 = OleSigmoid(X_).*(1-OleSigmoid(X_)) .* delta_re;
+    delta_lm1 = dx .* delta_re;
     
     X_lm1 = X;
     
@@ -56,13 +56,9 @@ if exist('delta', 'var')
         end
     end
     dkernel = (1/P) * dkernel;
-    dbias = sum(delta);
+    dbias = (1/P) * squeeze(sum(delta, 4))';
 end
-%% Gradient
-% dz = (1-z) .* z;
-% dwx = dz .* 1;
-% dw = X .* dz;
-% grad = dw;
+
 end
 
 function ma_ = rot180(ma)

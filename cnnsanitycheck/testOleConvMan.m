@@ -1,9 +1,10 @@
-function [ ret ] = testOleConvMan
+function [ ret ] = testOleConvMan(m, n, k)
 
 %%
-X = randi(4, [4, 4, 2, 1]);
-kernel = rand([3, 3, 2, 2]);
-X_ = OleConvMan( X, kernel );
+X = randi(4, [4, 4, n, m]);
+kernel = rand([3, 3, n, k]);
+bias = zeros([1, k]);
+X_ = OleConvMan( X, kernel, bias );
 
 nK = size(kernel, 4);
 y = vl_nnconv(single(X), single(kernel), []);
