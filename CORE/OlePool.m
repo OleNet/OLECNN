@@ -1,4 +1,4 @@
-function [ Y ] = OlePool( X, wndSize )
+function [ Y, delta_l ] = OlePool( X, wndSize, delta_lp1 )
 %OLEPOOL Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -12,5 +12,9 @@ switch mode
 end
 
 Y = blockproc(X, wndSize, fun);
+
+if exist('delta_lp1', 'var')
+    delta_l = kron(delta_lp1, ones(wndSize));
+end
 
 end
